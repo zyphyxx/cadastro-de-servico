@@ -57,4 +57,10 @@ public class ServicoService {
        Optional<Servico> newObj = servicoRepository.findById(id);
        servicoRepository.delete(newObj.get());
     }
+
+    public void cancelServico (Long id) {
+        Servico newObj = servicoRepository.findById(id).get();
+        newObj.setStatus("cancelado");
+        servicoRepository.save(newObj);
+    }
 }
