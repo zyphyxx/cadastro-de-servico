@@ -58,6 +58,7 @@ public class ServicoService {
        servicoRepository.delete(newObj.get());
     }
 
+    @Transactional
     public void cancelServico (Long id) {
         Servico newObj = servicoRepository.findById(id).get();
         newObj.setStatus("cancelado");
