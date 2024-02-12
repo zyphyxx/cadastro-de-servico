@@ -6,6 +6,13 @@ function Servico() {
 
   const [servico, setServico] = useState ({valorServico:'',nomeCliente:'', dataInicio:'', dataTermino:'', descricaoServico:'',valorPago:'',dataPagamento:''})
   const [servicos, setServicos] = useState ([]);
+  const [atualizar, setAtualizar] = useState();
+
+  useEffect(() => {
+    axios.get("http://localhost:8080/servico/").then(result => {
+      setServicos(result.data);
+    });
+  },[atualizar]);
 
   function handleChange(event){
     setServico({...servico, [event.target.name]:event.target.value})
@@ -13,8 +20,8 @@ function Servico() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    axios.post("http://localhost:8080/servico/", servico).then(result =>{
-      console.log(result);
+    axios.post("http://localhost:8080/servico/", servico).then((result) =>{
+      setAtualizar(result);
     })
 
   }
@@ -62,37 +69,32 @@ function Servico() {
           <input type="submit" value="Cadastrar" className='btn btn-success' />
 
           <hr />
-          <hr />
-
           <table class="table">
   <thead>
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
+      <th scope="col">Nome</th>
+      <th scope="col">Descrição</th>
+      <th scope="col">Valor</th>
+      <th scope="col">Status</th>
+      <th scope="col">Opções</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="2">Larry the Bird</td>
-      <td>@twitter</td>
-    </tr>
+    {
+      servicos.map(serv => (
+        <tr key={serv.id}>
+        <td>{serv.nomeCliente}</td>
+        <td>{serv.descricaoServico}</td>
+        <td>{serv.valorServico}</td>
+        <td>{serv.status}</td>
+        <td>{serv.status}</td>
+      </tr>
+      ))}
+   
+    
   </tbody>
 </table>
+          <hr />
 
 
           </div>
